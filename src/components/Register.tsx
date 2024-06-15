@@ -8,7 +8,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/register', {
+      await axios.post('https://todolist-back-454q.onrender.com/api/register', {
         username,
         password,
       });

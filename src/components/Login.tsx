@@ -8,10 +8,13 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        'https://todolist-back-454q.onrender.com/api/login',
+        {
+          username,
+          password,
+        }
+      );
       localStorage.setItem('token', response.data.token);
       alert('로그인에 성공했습니다.');
     } catch (error) {

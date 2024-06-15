@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Todo {
-  id: string;
+  _id: string;
   text: string;
   completed: boolean;
 }
@@ -18,10 +18,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
       <input
         type='checkbox'
         checked={todo.completed}
-        onChange={() => onToggle(todo.id)}
+        onChange={() => onToggle(todo._id)}
       />
       <span>{todo.text}</span>
-      <button onClick={() => onDelete(todo.id)}>삭제</button>
+      <button onClick={() => onDelete(todo._id)}>삭제</button>
     </div>
   );
 };
