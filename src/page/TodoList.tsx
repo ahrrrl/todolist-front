@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TodoItem from './TodoItem';
-import { Link } from 'react-router-dom';
+import TodoItem from '../components/TodoItem';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Todo {
   _id: string;
@@ -13,11 +13,11 @@ const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState<string>('');
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-  console.log(todos);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      console.log('토큰 작동');
       axios
         .get('https://todolist-back-454q.onrender.com/api/todos', {
           headers: { Authorization: `Bearer ${token}` },
@@ -89,9 +89,16 @@ const TodoList: React.FC = () => {
     );
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setAuthenticated(false);
+    navigate('/login');
+  };
+
   return (
     <div>
       <h1>할 일 목록</h1>
+      <button onClick={handleLogout}>로그아웃</button>
       <input
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
