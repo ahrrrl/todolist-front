@@ -1,6 +1,7 @@
 import React from 'react';
 import { validateLogin } from '../../utils/vailidationForm';
 import useForm from '../../hook/useform';
+import styles from './LoginForm.module.scss';
 
 interface LoginFormProps {
   onSubmit: (values: { username: string; password: string }) => Promise<void>;
@@ -14,31 +15,46 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, errorMessage }) => {
   );
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, onSubmit)}>
-      <div>
-        <label htmlFor='username'>유저이름</label>
+    <form
+      className={styles.formContainer}
+      onSubmit={(e) => handleSubmit(e, onSubmit)}
+    >
+      <div className={styles.form_group}>
+        <label className={styles.input_label} htmlFor='username'>
+          유저이름
+        </label>
         <input
+          className={styles.form_input}
           type='text'
           id='username'
           name='username'
           value={values.username}
           onChange={handleChange}
         />
-        {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
+        {errors.username && (
+          <p className={styles.error_message}>{errors.username}</p>
+        )}
       </div>
-      <div>
-        <label htmlFor='password'>비밀번호</label>
+      <div className={styles.form_group}>
+        <label className={styles.input_label} htmlFor='password'>
+          비밀번호
+        </label>
         <input
+          className={styles.form_input}
           type='password'
           id='password'
           name='password'
           value={values.password}
           onChange={handleChange}
         />
-        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+        {errors.password && (
+          <p className={styles.error_message}>{errors.password}</p>
+        )}
       </div>
-      <button type='submit'>로그인</button>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <button className={styles.form_button} type='submit'>
+        로그인
+      </button>
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
     </form>
   );
 };

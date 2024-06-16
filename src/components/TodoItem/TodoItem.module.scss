@@ -1,0 +1,35 @@
+.item_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox_input {
+  margin-right: 10px;
+}
+
+.todo_text {
+  flex: 1;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.delete_button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.item_container:hover .delete_button {
+  opacity: 1; /* 호버할 때 버튼 보이기 */
+}

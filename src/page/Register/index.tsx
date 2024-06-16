@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import SignupForm from '../components/SignupForm';
+import SignupForm from '../../components/SignupForm';
 import { useNavigate } from 'react-router-dom';
+import styles from './Register.module.scss';
 
 interface RegisterFormValues {
   username: string;
@@ -35,9 +36,11 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <SignupForm onSubmit={handleSignUp} errorMessage={errorMessage} />
+    <div className={styles.page_container}>
+      <div className={styles.form_container}>
+        <h1 className={styles.form_title}>회원가입</h1>
+        <SignupForm onSubmit={handleSignUp} errorMessage={errorMessage} />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,59 @@
+$form-width: 300px;
+$input-padding: 10px;
+$input-border: 1px solid #ccc;
+$error-color: red;
+$button-bg-color: #4caf50;
+$button-text-color: white;
+$button-padding: 10px 20px;
+$button-border: none;
+$button-hover-bg-color: #45a049;
+
+.form-container {
+  width: $form-width;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.form_group {
+  margin-bottom: 15px;
+}
+
+.input_label {
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form_input {
+  width: 100%;
+  padding: $input-padding;
+  margin: 5px 0 10px 0;
+  border: $input-border;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.error_message {
+  text-align: left;
+  color: $error-color;
+  font-size: 0.875em;
+}
+
+.form_button {
+  background-color: $button-bg-color;
+  color: $button-text-color;
+  padding: $button-padding;
+  border: $button-border;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1em;
+
+  &:hover {
+    background-color: $button-hover-bg-color;
+  }
+}

@@ -1,0 +1,30 @@
+$page-bg-color: #f0f0f0;
+$form-bg-color: #ffffff;
+$heading-color: #333;
+$form-width: 400px;
+$form-padding: 20px;
+$form-border-radius: 10px;
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+.page_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $page-bg-color;
+}
+
+.form_container {
+  background-color: $form-bg-color;
+  width: $form-width;
+  padding: $form-padding;
+  border-radius: $form-border-radius;
+  box-shadow: $box-shadow;
+  text-align: center;
+}
+
+.form_title {
+  color: $heading-color;
+  margin-bottom: 20px;
+  font-size: 30px;
+}

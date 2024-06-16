@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TodoItem from '../components/TodoItem';
 import { Link, useNavigate } from 'react-router-dom';
+import styles from './TodoList.module.scss';
+import TodoItem from '../../components/TodoItem';
 
 interface Todo {
   _id: string;
@@ -76,44 +77,52 @@ const TodoList: React.FC = () => {
       });
   };
 
-  if (!authenticated) {
-    return (
-      <div>
-        <Link to='/login'>
-          <p>로그인 후 이용해주세요.</p>
-        </Link>
-        <Link to='/register'>
-          <p>회원가입 하기</p>
-        </Link>
-      </div>
-    );
-  }
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     setAuthenticated(false);
     navigate('/login');
   };
 
+  if (!authenticated) {
+    return (
+      <div className={styles.page_container}>
+        <div className={styles.link_container}>
+          <Link to='/login'>로그인 후 이용해주세요.</Link>
+          <Link to='/register'>회원가입 하기</Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1>할 일 목록</h1>
-      <button onClick={handleLogout}>로그아웃</button>
-      <input
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-        placeholder='새로운 할 일 추가'
-      />
-      <button onClick={addTodo}>추가</button>
-      <div>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo._id}
-            todo={todo}
-            onToggle={toggleTodo}
-            onDelete={deleteTodo}
+    <div className={styles.page_container}>
+      <div className={styles.todo_container}>
+        <h1 className={styles.title}>할 일 목록</h1>
+        <button className={styles.logout_button} onClick={handleLogout}>
+          로그아웃
+        </button>
+        <div className={styles.input_container}>
+          <input
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder='새로운 할 일 추가'
           />
-        ))}
+          <button onClick={addTodo}>추가</button>
+        </div>
+        {todos.length === 0 ? (
+          <p className={styles.empty_message}>할 일이 없습니다.</p>
+        ) : (
+          <div>
+            {todos.map((todo) => (
+              <TodoItem
+                key={todo._id}
+                todo={todo}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

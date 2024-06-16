@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../../components/LoginForm';
 import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.scss';
 
 interface LoginFormValues {
   username: string;
@@ -38,9 +39,11 @@ const Login: React.FC = () => {
     }
   };
   return (
-    <div>
-      <h1>로그인</h1>
-      <LoginForm onSubmit={handleLogin} errorMessage={errorMessage} />
+    <div className={styles.page_container}>
+      <div className={styles.form_container}>
+        <h1 className={styles.form_title}>로그인</h1>
+        <LoginForm onSubmit={handleLogin} errorMessage={errorMessage} />
+      </div>
     </div>
   );
 };
