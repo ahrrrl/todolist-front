@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import LoginForm from '../../components/LoginForm';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
+import { useLogin } from '../../hook/useLogin';
 
 interface LoginFormValues {
   username: string;
@@ -12,6 +12,7 @@ interface LoginFormValues {
 const Login: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const loginMutation = useLogin();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,16 +22,8 @@ const Login: React.FC = () => {
   }, [navigate]);
 
   const handleLogin = async (values: LoginFormValues) => {
-    const { username, password } = values;
     try {
-      const response = await axios.post(
-        'https://todolist-back-454q.onrender.com/api/login',
-        {
-          username,
-          password,
-        }
-      );
-      localStorage.setItem('token', response.data.token);
+      await loginMutation.mutateAsync(values);
       setErrorMessage('');
       navigate('/');
     } catch (error) {

@@ -1,80 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './TodoList.module.scss';
 import TodoItem from '../../components/TodoItem';
+import {
+  useTodoList,
+  useAddTodo,
+  useToggleTodo,
+  useDeleteTodo,
+} from '../../hook/useTodoList';
 
-interface Todo {
-  _id: string;
-  text: string;
-  completed: boolean;
-}
-
-const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [newTodo, setNewTodo] = useState<string>('');
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+const TodoList = () => {
+  const [newTodo, setNewTodo] = useState('');
+  const [authenticated, setAuthenticated] = useState(
+    !!localStorage.getItem('token')
+  );
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios
-        .get('https://todolist-back-454q.onrender.com/api/todos', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setTodos(response.data);
-          setAuthenticated(true);
-        })
-        .catch(() => {
-          setAuthenticated(false);
-        });
-    } else {
-      setAuthenticated(false);
-    }
-  }, []);
+  const { data: todos, isLoading, isError } = useTodoList();
+  const addTodoMutation = useAddTodo();
+  const toggleTodoMutation = useToggleTodo();
+  const deleteTodoMutation = useDeleteTodo();
 
-  const addTodo = () => {
-    const token = localStorage.getItem('token');
-    axios
-      .post(
-        'https://todolist-back-454q.onrender.com/api/todos',
-        { text: newTodo },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        setTodos([...todos, response.data]);
+  const handleAddTodo = () => {
+    addTodoMutation.mutate(newTodo, {
+      onSuccess: () => {
         setNewTodo('');
-      });
+      },
+    });
   };
 
-  const toggleTodo = (id: string) => {
-    const token = localStorage.getItem('token');
-    axios
-      .patch(
-        `https://todolist-back-454q.onrender.com/api/todos/${id}/toggle`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        setTodos(todos.map((todo) => (todo._id === id ? response.data : todo)));
-      });
+  const handleToggleTodo = (id: string) => {
+    toggleTodoMutation.mutate(id);
   };
 
-  const deleteTodo = (id: string) => {
-    const token = localStorage.getItem('token');
-    axios
-      .delete(`https://todolist-back-454q.onrender.com/api/todos/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(() => {
-        setTodos(todos.filter((todo) => todo._id !== id));
-      });
+  const handleDeleteTodo = (id: string) => {
+    deleteTodoMutation.mutate(id);
   };
 
   const handleLogout = () => {
@@ -94,6 +54,13 @@ const TodoList: React.FC = () => {
     );
   }
 
+  if (isLoading) {
+    return <div>자료를 불러오는 중입니다!</div>;
+  }
+
+  if (isError) {
+    return <div>에러가 발생했습니다. 다시 시도해주세요.</div>;
+  }
   return (
     <div className={styles.page_container}>
       <div className={styles.todo_container}>
@@ -107,20 +74,21 @@ const TodoList: React.FC = () => {
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder='새로운 할 일 추가'
           />
-          <button onClick={addTodo}>추가</button>
+          <button onClick={handleAddTodo}>추가</button>
         </div>
-        {todos.length === 0 ? (
+        {todos && todos.length === 0 ? (
           <p className={styles.empty_message}>할 일이 없습니다.</p>
         ) : (
           <div>
-            {todos.map((todo) => (
-              <TodoItem
-                key={todo._id}
-                todo={todo}
-                onToggle={toggleTodo}
-                onDelete={deleteTodo}
-              />
-            ))}
+            {todos &&
+              todos.map((todo) => (
+                <TodoItem
+                  key={todo._id}
+                  todo={todo}
+                  onToggle={handleToggleTodo}
+                  onDelete={handleDeleteTodo}
+                />
+              ))}
           </div>
         )}
       </div>

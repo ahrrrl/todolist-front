@@ -2,9 +2,10 @@ import React from 'react';
 import styles from './TodoItem.module.scss';
 
 interface Todo {
-  _id: string;
-  text: string;
   completed: boolean;
+  text: string;
+  userId: string;
+  _id: string;
 }
 
 interface TodoItemProps {
