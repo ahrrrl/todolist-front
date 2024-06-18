@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = 'https://todolist-back-454q.onrender.com/api';
+import apiClient from '../axios/instance';
 
 export interface LoginFormValues {
   username: string;
@@ -15,19 +13,13 @@ export interface LoginResponse {
 export const loginUser = async (
   values: LoginFormValues
 ): Promise<LoginResponse> => {
-  const response = await axios.post(`${API_URL}/login`, values);
+  const response = await apiClient.post(`/login`, values);
   localStorage.setItem('token', response.data.token);
   return response.data;
 };
 
 export const fetchUser = async () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    return null;
-  }
-  const response = await axios.get(`${API_URL}/user`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await apiClient.get(`/user`);
   return response.data;
 };
 
@@ -38,7 +30,7 @@ interface SingUpValues {
 
 export const signUp = async (values: SingUpValues) => {
   const { username, password } = values;
-  await axios.post(`${API_URL}/login/register`, {
+  await apiClient.post(`/login/register`, {
     username,
     password,
   });
