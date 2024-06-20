@@ -4,6 +4,7 @@ import {
   addTodo as addTodoApi,
   toggleTodo as toggleTodoApi,
   deleteTodo as deleteTodoApi,
+  editTodo as editTodoApi,
 } from '../api/todos';
 
 export const useTodoList = () => {
@@ -34,6 +35,16 @@ export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTodoApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todolist'] });
+    },
+  });
+};
+
+export const useEditTodo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: editTodoApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todolist'] });
     },

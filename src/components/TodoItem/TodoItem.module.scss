@@ -22,14 +22,40 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  opacity: 0;
   transition: opacity 0.3s ease;
-
   &:hover {
     background-color: #c82333;
   }
 }
 
-.item_container:hover .delete_button {
+.edit_button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.3s ease;
+  &:hover {
+    background-color: #218838;
+  }
+}
+
+.button_container {
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.item_container:hover .button_container {
   opacity: 1; /* 호버할 때 버튼 보이기 */
+}
+
+.edit_input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
