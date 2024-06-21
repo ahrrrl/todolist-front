@@ -13,7 +13,9 @@ export interface LoginResponse {
 export const loginUser = async (
   values: LoginFormValues
 ): Promise<LoginResponse> => {
-  const response = await apiClient.post(`/login`, values);
+  const response = await apiClient.post(`/login`, values, {
+    withCredentials: true,
+  });
   localStorage.setItem('accessToken', response.data.accessToken);
   return response.data;
 };
