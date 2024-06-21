@@ -5,6 +5,6 @@ export const useUser = () => {
   return useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
-    staleTime: Infinity,
+    retry: false,
   });
 };

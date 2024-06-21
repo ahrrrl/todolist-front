@@ -1,0 +1,30 @@
+.header_container {
+  width: 100%;
+  position: absolute;
+  height: 40px;
+}
+
+.nav_container {
+  display: flex;
+  align-items: center;
+  margin: 16px;
+  justify-content: space-between;
+}
+
+.nav_img {
+  height: 36px;
+}
+
+.nav_list {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.li_item {
+  padding: 4px;
+  &:hover {
+    text-decoration: underline;
+    color: #007bff;
+  }
+}

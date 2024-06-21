@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 // 요청 인터셉터 설정
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -24,7 +24,6 @@ apiClient.interceptors.response.use(
     // 응답이 실패한 경우
     if (error.response && error.response.status === 401) {
       // 401 에러가 발생하면 로컬스토리지에서 토큰 삭제
-      localStorage.removeItem('token');
     }
     // 오류를 다시 던져서 호출한 곳에서 처리할 수 있도록 함
     return Promise.reject(error);

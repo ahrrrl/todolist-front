@@ -9,7 +9,6 @@ export const useLogin = () => {
     onSuccess: (data: LoginResponse) => {
       queryClient.setQueryData(['user'], {
         username: data.username,
-        token: data.token,
       });
     },
   });

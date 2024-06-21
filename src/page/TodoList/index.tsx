@@ -8,20 +8,23 @@ import {
   useToggleTodo,
   useDeleteTodo,
 } from '../../hook/useTodoList';
+import { useQueryClient } from '@tanstack/react-query';
 
 const TodoList = () => {
   const [newTodo, setNewTodo] = useState('');
   const [authenticated, setAuthenticated] = useState(
-    !!localStorage.getItem('token')
+    !!localStorage.getItem('accessToken')
   );
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const { data: todos, isLoading, isError } = useTodoList();
   const addTodoMutation = useAddTodo();
   const toggleTodoMutation = useToggleTodo();
   const deleteTodoMutation = useDeleteTodo();
 
-  const handleAddTodo = () => {
+  const handleAddTodo = (e: React.FormEvent) => {
+    e.preventDefault(); // 폼의 기본 제출 동작을 막음
+    if (newTodo.trim() === '') return; // 새로운 할 일이 비어있지 않은지 확인
     addTodoMutation.mutate(newTodo, {
       onSuccess: () => {
         setNewTodo('');
@@ -38,8 +41,9 @@ const TodoList = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     setAuthenticated(false);
+    queryClient.removeQueries({ queryKey: ['user'] });
     navigate('/login');
   };
 
@@ -61,6 +65,7 @@ const TodoList = () => {
   if (isError) {
     return <div>에러가 발생했습니다. 다시 시도해주세요.</div>;
   }
+
   return (
     <div className={styles.page_container}>
       <div className={styles.todo_container}>
@@ -68,14 +73,14 @@ const TodoList = () => {
         <button className={styles.logout_button} onClick={handleLogout}>
           로그아웃
         </button>
-        <div className={styles.input_container}>
+        <form className={styles.input_container} onSubmit={handleAddTodo}>
           <input
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder='새로운 할 일 추가'
           />
-          <button onClick={handleAddTodo}>추가</button>
-        </div>
+          <button type='submit'>추가</button>
+        </form>
         {todos && todos.length === 0 ? (
           <p className={styles.empty_message}>할 일이 없습니다.</p>
         ) : (

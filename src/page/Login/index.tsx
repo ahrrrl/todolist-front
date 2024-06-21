@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import LoginForm from '../../components/LoginForm';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
@@ -13,13 +13,6 @@ const Login: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const loginMutation = useLogin();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-  }, [navigate]);
 
   const handleLogin = async (values: LoginFormValues) => {
     try {

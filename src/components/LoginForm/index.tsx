@@ -16,7 +16,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, errorMessage }) => {
 
   return (
     <form
-      className={styles.formContainer}
+      className={styles.form_container}
       onSubmit={(e) => handleSubmit(e, onSubmit)}
     >
       <div className={styles.form_group}>
