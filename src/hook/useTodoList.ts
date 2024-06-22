@@ -8,7 +8,7 @@ import {
 } from '../api/todos';
 
 export const useTodoList = () => {
-  return useQuery({ queryKey: ['todolist'], queryFn: getTodoList });
+  return useQuery({ queryKey: ['user', 'todolist'], queryFn: getTodoList });
 };
 
 export const useAddTodo = () => {
@@ -16,7 +16,7 @@ export const useAddTodo = () => {
   return useMutation({
     mutationFn: addTodoApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todolist'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'todolist'] });
     },
   });
 };
@@ -26,7 +26,7 @@ export const useToggleTodo = () => {
   return useMutation({
     mutationFn: toggleTodoApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todolist'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'todolist'] });
     },
   });
 };
@@ -36,7 +36,7 @@ export const useDeleteTodo = () => {
   return useMutation({
     mutationFn: deleteTodoApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todolist'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'todolist'] });
     },
   });
 };
@@ -46,7 +46,7 @@ export const useEditTodo = () => {
   return useMutation({
     mutationFn: editTodoApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todolist'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'todolist'] });
     },
   });
 };
