@@ -1,8 +1,11 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import styles from './Layout.module.scss';
+import { useUser } from '../../hook/useUser';
 
 const Layout: React.FC = () => {
+  const { data: user, isError } = useUser();
+  console.log(user);
   return (
     <>
       <header className={styles.header_container}>
@@ -18,12 +21,18 @@ const Layout: React.FC = () => {
             <li className={styles.li_item}>
               <Link to='/'>Todo List</Link>
             </li>
-            <li className={styles.li_item}>
-              <Link to='/register'>회원가입</Link>
-            </li>
-            <li className={styles.li_item}>
-              <Link to='/login'>로그인</Link>
-            </li>
+            {user && !isError ? (
+              <li className={styles.li_item}>{user.username}</li>
+            ) : (
+              <>
+                <li className={styles.li_item}>
+                  <Link to='/register'>회원가입</Link>
+                </li>
+                <li className={styles.li_item}>
+                  <Link to='/login'>로그인</Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </header>

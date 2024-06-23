@@ -8,7 +8,11 @@ import {
 } from '../api/todos';
 
 export const useTodoList = () => {
-  return useQuery({ queryKey: ['user', 'todolist'], queryFn: getTodoList });
+  return useQuery({
+    queryKey: ['user', 'todolist'],
+    queryFn: getTodoList,
+    retry: false,
+  });
 };
 
 export const useAddTodo = () => {
